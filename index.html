@@ -22,21 +22,24 @@
             --warning: #dd6b20;
         }
 
-        html, body {
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
             font-family: 'Inter', 'Noto Sans Malayalam', sans-serif;
             background: var(--bg);
             color: var(--text);
-            height: 100%;
+            overflow-x: hidden;
+            min-height: 100vh;
             width: 100%;
-            overflow: hidden;
         }
 
         .presentation {
             width: 100%;
-            height: 100vh;
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
-            overflow: hidden;
         }
 
         .header {
@@ -49,6 +52,8 @@
             box-shadow: 0 4px 20px rgba(0,0,0,0.15);
             z-index: 100;
             flex-shrink: 0;
+            position: sticky;
+            top: 0;
         }
 
         .header h1 { font-size: 1.4rem; font-weight: 700; }
@@ -64,41 +69,31 @@
 
         .slide-container {
             flex: 1;
-            overflow-y: scroll;
-            scroll-snap-type: y mandatory;
-            scroll-behavior: smooth;
-            position: relative;
             background: var(--bg);
-        }
-
-        .slide-container::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        .slide-container::-webkit-scrollbar-track {
-            background: var(--bg);
-        }
-
-        .slide-container::-webkit-scrollbar-thumb {
-            background: var(--secondary);
-            border-radius: 4px;
+            padding: 20px 50px 40px;
         }
 
         .slide {
             width: 100%;
-            min-height: 100%;
-            padding: 30px 50px;
+            max-width: 1200px;
+            margin: 0 auto 50px;
+            padding: 30px;
             display: flex;
             flex-direction: column;
-            overflow-y: auto;
-            background: var(--bg);
-            scroll-snap-align: start;
-            scroll-snap-stop: always;
-            position: relative;
+            background: var(--card);
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            animation: fadeInUp 0.6s ease;
+            scroll-margin-top: 100px;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .slide-title {
-            font-size: 2rem;
+            font-size: 1.8rem;
             font-weight: 700;
             color: var(--primary);
             margin-bottom: 8px;
@@ -142,6 +137,12 @@
             padding: 20px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.08);
             border-left: 4px solid var(--secondary);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.12);
         }
 
         .card-title {
@@ -311,6 +312,64 @@
         .tag-red { background: #fed7d7; color: #742a2a; }
         .tag-yellow { background: #fefcbf; color: #744210; }
 
+        .nav-bar {
+            background: var(--card);
+            padding: 12px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 -4px 20px rgba(0,0,0,0.08);
+            z-index: 100;
+            flex-shrink: 0;
+            position: sticky;
+            bottom: 0;
+        }
+
+        .nav-btn {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            min-width: 120px;
+            justify-content: center;
+        }
+
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(30, 58, 95, 0.3);
+        }
+
+        .nav-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .progress-bar {
+            flex: 1;
+            height: 5px;
+            background: #e2e8f0;
+            border-radius: 3px;
+            margin: 0 25px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent), #f6ad55);
+            border-radius: 3px;
+            transition: width 0.4s ease;
+        }
+
         .two-col {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -372,37 +431,56 @@
             font-size: 0.85rem;
         }
 
-        .scroll-hint {
+        .scroll-indicator {
             position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(30, 58, 95, 0.8);
-            color: white;
-            padding: 8px 20px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            z-index: 1000;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
             display: flex;
-            align-items: center;
+            flex-direction: column;
             gap: 8px;
-            animation: bounce 2s infinite;
-            pointer-events: none;
+            z-index: 200;
         }
 
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
-            40% { transform: translateX(-50%) translateY(-10px); }
-            60% { transform: translateX(-50%) translateY(-5px); }
+        .scroll-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #cbd5e0;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+        }
+
+        .scroll-dot.active {
+            background: var(--accent);
+            transform: scale(1.3);
+            border-color: var(--primary);
+        }
+
+        .scroll-dot:hover {
+            background: var(--secondary);
+        }
+
+        .slide-divider {
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent), var(--secondary));
+            border-radius: 2px;
+            margin: 0 auto 30px;
         }
 
         @media (max-width: 768px) {
-            .slide { padding: 15px; }
+            .slide-container { padding: 15px; }
+            .slide { padding: 20px; margin-bottom: 30px; }
             .slide-title { font-size: 1.4rem; }
             .two-col { grid-template-columns: 1fr; }
             .content-grid { grid-template-columns: 1fr; }
             .header h1 { font-size: 1rem; }
             .header { padding: 10px 15px; }
+            .nav-bar { padding: 10px 15px; }
+            .nav-btn { padding: 8px 16px; font-size: 0.85rem; min-width: 90px; }
+            .scroll-indicator { display: none; }
         }
     </style>
 </head>
@@ -421,7 +499,7 @@
         <div class="slide-container" id="slideContainer">
 
             <!-- Slide 1: Title -->
-            <div class="slide" data-index="1">
+            <div class="slide" id="slide-1">
                 <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;text-align:center;min-height:400px;">
                     <div style="font-size:4rem;margin-bottom:15px;">📊</div>
                     <h1 style="font-size:2.5rem;color:var(--primary);margin-bottom:10px;">Financial Accounting I</h1>
@@ -435,12 +513,12 @@
                         <span class="tag tag-yellow">Final Accounts</span>
                         <span class="tag tag-red">Adjustments</span>
                     </div>
-                    <p style="margin-top:30px;color:#a0aec0;font-size:0.85rem;">Scroll down or use arrow keys to navigate</p>
+                    <p style="margin-top:30px;color:#a0aec0;font-size:0.85rem;">Scroll down to explore all topics</p>
                 </div>
             </div>
 
             <!-- Slide 2: Conceptual Framework -->
-            <div class="slide" data-index="2">
+            <div class="slide" id="slide-2">
                 <div class="slide-title">
                     <div class="icon">🏗️</div>
                     Conceptual Framework
@@ -486,7 +564,7 @@
             </div>
 
             <!-- Slide 3: Accounting Concepts -->
-            <div class="slide" data-index="3">
+            <div class="slide" id="slide-3">
                 <div class="slide-title">
                     <div class="icon">📐</div>
                     Accounting Concepts
@@ -551,15 +629,732 @@
                 </table>
             </div>
 
-            <!-- Slide 4: Accounting Conventions -->
-            <div class="slide" data-index="4">
+            <!-- Slide 4: Accounting Standards -->
+            <div class="slide" id="slide-4">
                 <div class="slide-title">
                     <div class="icon">📜</div>
-                    Accounting Conventions
+                    Accounting Standards
                 </div>
-                <div class="slide-subtitle malayalam">അക്കൗണ്ടിംഗ് സമ്പ്രദായങ്ങൾ - രേഖപ്പെടുത്തുമ്പോൾ പാലിക്കേണ്ട നിയമങ്ങൾ</div>
+                <div class="slide-subtitle malayalam">അക്കൗണ്ടിംഗ് മാനദണ്ഡങ്ങൾ - ഫിനാൻഷ്യൽ റിപ്പോർട്ടിംഗിന്റെ നിയമങ്ങൾ</div>
 
                 <div class="content-grid">
                     <div class="card">
-                        <div class="card-title">📘 Consistency <span class="badge">തുടർച്ച</span></div>
-                        <div class="card-conten
+                        <div class="card-title">📋 AS 1 - Disclosure of Policies <span class="badge">പ്രധാനം</span></div>
+                        <div class="card-content">
+                            All significant accounting policies must be disclosed in financial statements.<br><br>
+                            <span class="malayalam">എല്ലാ പ്രധാന അക്കൗണ്ടിംഗ് നയങ്ങളും വെളിപ്പെടുത്തണം</span>
+                        </div>
+                    </div>
+
+                    <div class="card" style="border-left-color:var(--success);">
+                        <div class="card-title">📋 AS 2 - Valuation of Inventories</div>
+                        <div class="card-content">
+                            Inventories valued at <strong>lower of cost or net realizable value</strong>.<br><br>
+                            <span class="malayalam">സ്റ്റോക്ക് ചെലവിലോ വിൽപ്പന വിലയിലോ എത്ര കുറവോ അതിനനുസരിച്ച് മൂല്യനിർണ്ണയം</span>
+                        </div>
+                    </div>
+
+                    <div class="card" style="border-left-color:var(--warning);">
+                        <div class="card-title">📋 AS 6 - Depreciation</div>
+                        <div class="card-content">
+                            Systematic allocation of depreciable amount over useful life.<br><br>
+                            <span class="malayalam">ആസ്തികളുടെ ഉപയോഗ കാലയളവിൽ മൂല്യച്യുതി കണക്കാക്കണം</span>
+                        </div>
+                    </div>
+
+                    <div class="card" style="border-left-color:var(--danger);">
+                        <div class="card-title">📋 AS 10 - Property, Plant & Equipment</div>
+                        <div class="card-content">
+                            PPE recorded at cost. Depreciation charged systematically.<br><br>
+                            <span class="malayalam">ഉപകരണങ്ങളും കെട്ടിടങ്ങളും ചെലവിൽ രേഖപ്പെടുത്തണം</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 5: Trial Balance -->
+            <div class="slide" id="slide-5">
+                <div class="slide-title">
+                    <div class="icon">⚖️</div>
+                    Trial Balance
+                </div>
+                <div class="slide-subtitle malayalam">ട്രയൽ ബാലൻസ് - അക്കൗണ്ടുകൾ ശരിയാണോ എന്ന് പരിശോധിക്കൽ</div>
+
+                <div class="formula-box">
+                    <strong>Trial Balance Equation:</strong><br>
+                    Total Debits = Total Credits
+                </div>
+
+                <div class="two-col">
+                    <div class="card">
+                        <div class="card-title">📋 Purpose <span class="badge">ഉദ്ദേശ്യം</span></div>
+                        <div class="card-content">
+                            <ul class="styled-list">
+                                <li>Check arithmetical accuracy of ledger accounts</li>
+                                <li>Base for preparing final accounts</li>
+                                <li>Helps locate errors in posting</li>
+                            </ul>
+                            <br>
+                            <span class="malayalam">ലെഡ്ജർ അക്കൗണ്ടുകളുടെ കണക്കുകൂട്ടൽ ശരിയാണോ എന്ന് പരിശോധിക്കാൻ</span>
+                        </div>
+                    </div>
+
+                    <div class="card" style="border-left-color:var(--success);">
+                        <div class="card-title">✅ Types of Errors Detected</div>
+                        <div class="card-content">
+                            <ul class="styled-list">
+                                <li>Errors of omission (partial)</li>
+                                <li>Errors of commission</li>
+                                <li>Errors of principle</li>
+                            </ul>
+                            <br>
+                            <span class="malayalam">കണക്കുകൂട്ടൽ പിശകുകൾ കണ്ടെത്താൻ സഹായിക്കും</span>
+                        </div>
+                    </div>
+                </div>
+
+                <table class="data-table" style="margin-top:20px;">
+                    <thead>
+                        <tr>
+                            <th>Account Name</th>
+                            <th>Debit (₹)</th>
+                            <th>Credit (₹)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Cash</td><td>50,000</td><td>-</td></tr>
+                        <tr><td>Purchases</td><td>80,000</td><td>-</td></tr>
+                        <tr><td>Sales</td><td>-</td><td>1,20,000</td></tr>
+                        <tr><td>Capital</td><td>-</td><td>1,00,000</td></tr>
+                        <tr><td>Salaries</td><td>20,000</td><td>-</td></tr>
+                        <tr><td>Rent</td><td>10,000</td><td>-</td></tr>
+                        <tr><td>Creditors</td><td>-</td><td>40,000</td></tr>
+                        <tr style="background:#ebf8ff;"><td><strong>Total</strong></td><td><strong>1,60,000</strong></td><td><strong>1,60,000</strong></td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Slide 6: Trading Account -->
+            <div class="slide" id="slide-6">
+                <div class="slide-title">
+                    <div class="icon">📈</div>
+                    Trading Account
+                </div>
+                <div class="slide-subtitle malayalam">ട്രേഡിംഗ് അക്കൗണ്ട് - വ്യാപാര ലാഭം കണക്കാക്കൽ</div>
+
+                <div class="formula-box">
+                    <strong>Gross Profit = Net Sales - Cost of Goods Sold (COGS)</strong><br><br>
+                    COGS = Opening Stock + Purchases + Direct Expenses - Closing Stock
+                </div>
+
+                <div class="account-format">
+                    <div class="account-title">📋 Format of Trading Account</div>
+                    <div class="t-account">
+                        <div>
+                            <div class="t-account-header">Dr. Side (Debit)</div>
+                            <div class="t-account-body">
+                                <div class="item"><span>Opening Stock</span><span>XXX</span></div>
+                                <div class="item"><span>Purchases</span><span>XXX</span></div>
+                                <div class="item"><span>Wages</span><span>XXX</span></div>
+                                <div class="item"><span>Carriage Inward</span><span>XXX</span></div>
+                                <div class="item"><span>Fuel & Power</span><span>XXX</span></div>
+                                <div class="item"><span>Gross Profit (c/d)</span><span>XXX</span></div>
+                                <div class="total"><span>Total</span><span>XXX</span></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="t-account-header">Cr. Side (Credit)</div>
+                            <div class="t-account-body">
+                                <div class="item"><span>Sales</span><span>XXX</span></div>
+                                <div class="item"><span>Sales Returns</span><span>(XXX)</span></div>
+                                <div class="item"><span>Closing Stock</span><span>XXX</span></div>
+                                <div class="item"><span>Gross Loss (c/d)</span><span>XXX</span></div>
+                                <div class="total"><span>Total</span><span>XXX</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card" style="margin-top:15px;">
+                    <div class="card-title">📝 Key Points <span class="badge" style="background:#c6f6d5;">പ്രധാന കാര്യങ്ങൾ</span></div>
+                    <div class="card-content">
+                        <ul class="styled-list">
+                            <li><strong>Direct Expenses:</strong> Wages, carriage inward, freight, octroi, factory expenses</li>
+                            <li><strong>Net Sales:</strong> Sales - Sales Returns</li>
+                            <li><strong>Net Purchases:</strong> Purchases - Purchase Returns</li>
+                            <li><strong>Gross Profit</strong> is transferred to Profit & Loss Account</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 7: Profit & Loss Account -->
+            <div class="slide" id="slide-7">
+                <div class="slide-title">
+                    <div class="icon">💰</div>
+                    Profit & Loss Account
+                </div>
+                <div class="slide-subtitle malayalam">ലാഭനഷ്ട അക്കൗണ്ട് - നെറ്റ് ലാഭം കണക്കാക്കൽ</div>
+
+                <div class="formula-box">
+                    <strong>Net Profit = Gross Profit + Other Income - Indirect Expenses</strong>
+                </div>
+
+                <div class="account-format">
+                    <div class="account-title">📋 Format of Profit & Loss Account</div>
+                    <div class="t-account">
+                        <div>
+                            <div class="t-account-header">Dr. Side (Expenses & Losses)</div>
+                            <div class="t-account-body">
+                                <div class="item"><span>Gross Loss (b/d)</span><span>XXX</span></div>
+                                <div class="item"><span>Salaries</span><span>XXX</span></div>
+                                <div class="item"><span>Rent</span><span>XXX</span></div>
+                                <div class="item"><span>Depreciation</span><span>XXX</span></div>
+                                <div class="item"><span>Interest</span><span>XXX</span></div>
+                                <div class="item"><span>Bad Debts</span><span>XXX</span></div>
+                                <div class="item"><span>Net Profit (c/d)</span><span>XXX</span></div>
+                                <div class="total"><span>Total</span><span>XXX</span></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="t-account-header">Cr. Side (Incomes & Gains)</div>
+                            <div class="t-account-body">
+                                <div class="item"><span>Gross Profit (b/d)</span><span>XXX</span></div>
+                                <div class="item"><span>Commission Received</span><span>XXX</span></div>
+                                <div class="item"><span>Discount Received</span><span>XXX</span></div>
+                                <div class="item"><span>Interest Received</span><span>XXX</span></div>
+                                <div class="item"><span>Rent Received</span><span>XXX</span></div>
+                                <div class="item"><span>Net Loss (c/d)</span><span>XXX</span></div>
+                                <div class="total"><span>Total</span><span>XXX</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card" style="margin-top:15px;">
+                    <div class="card-title">📝 Indirect Expenses <span class="badge" style="background:#fed7d7;">പരോക്ഷ ചെലവുകൾ</span></div>
+                    <div class="card-content">
+                        <span class="tag tag-red">Salaries</span>
+                        <span class="tag tag-red">Rent</span>
+                        <span class="tag tag-red">Insurance</span>
+                        <span class="tag tag-red">Depreciation</span>
+                        <span class="tag tag-red">Bad Debts</span>
+                        <span class="tag tag-red">Interest</span>
+                        <span class="tag tag-red">Repairs</span>
+                        <span class="tag tag-red">Advertising</span>
+                        <span class="tag tag-red">Printing</span>
+                        <span class="tag tag-red">Postage</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 8: Balance Sheet -->
+            <div class="slide" id="slide-8">
+                <div class="slide-title">
+                    <div class="icon">📊</div>
+                    Balance Sheet
+                </div>
+                <div class="slide-subtitle malayalam">ബാലൻസ് ഷീറ്റ് - ബിസിനസ്സിന്റെ സാമ്പത്തിക സ്ഥിതി</div>
+
+                <div class="formula-box">
+                    <strong>Assets = Liabilities + Capital</strong><br><br>
+                    Or: Capital = Assets - Liabilities
+                </div>
+
+                <div class="account-format">
+                    <div class="account-title">📋 Format of Balance Sheet</div>
+                    <div class="t-account">
+                        <div>
+                            <div class="t-account-header">Liabilities (Credit)</div>
+                            <div class="t-account-body">
+                                <div class="item"><span>Capital</span><span>XXX</span></div>
+                                <div class="item"><span>Add: Net Profit</span><span>XXX</span></div>
+                                <div class="item"><span>Less: Drawings</span><span>(XXX)</span></div>
+                                <div class="item"><span>Loans</span><span>XXX</span></div>
+                                <div class="item"><span>Creditors</span><span>XXX</span></div>
+                                <div class="item"><span>Bills Payable</span><span>XXX</span></div>
+                                <div class="item"><span>Outstanding Expenses</span><span>XXX</span></div>
+                                <div class="total"><span>Total</span><span>XXX</span></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="t-account-header">Assets (Debit)</div>
+                            <div class="t-account-body">
+                                <div class="item"><span>Land & Building</span><span>XXX</span></div>
+                                <div class="item"><span>Plant & Machinery</span><span>XXX</span></div>
+                                <div class="item"><span>Furniture</span><span>XXX</span></div>
+                                <div class="item"><span>Stock</span><span>XXX</span></div>
+                                <div class="item"><span>Debtors</span><span>XXX</span></div>
+                                <div class="item"><span>Bills Receivable</span><span>XXX</span></div>
+                                <div class="item"><span>Cash & Bank</span><span>XXX</span></div>
+                                <div class="item"><span>Prepaid Expenses</span><span>XXX</span></div>
+                                <div class="total"><span>Total</span><span>XXX</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card" style="margin-top:15px;">
+                    <div class="card-title">📝 Order of Assets <span class="badge" style="background:#bee3f8;">ആസ്തികളുടെ ക്രമം</span></div>
+                    <div class="card-content">
+                        <strong>Fixed Assets:</strong> Land, Building, Machinery, Furniture (in order of permanence)<br>
+                        <strong>Current Assets:</strong> Stock, Debtors, Bills Receivable, Cash, Bank, Prepaid Expenses<br><br>
+                        <span class="malayalam">സ്ഥിര ആസ്തികൾ → നിലവിലെ ആസ്തികൾ എന്ന ക്രമത്തിൽ</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 9: Adjustments -->
+            <div class="slide" id="slide-9">
+                <div class="slide-title">
+                    <div class="icon">🔧</div>
+                    Adjustments
+                </div>
+                <div class="slide-subtitle malayalam">അഡ്ജസ്റ്റ്മെന്റുകൾ - ഫൈനൽ അക്കൗണ്ടുകൾ തയ്യാറാക്കുന്നതിന് മുമ്പുള്ള തിരുത്തലുകൾ</div>
+
+                <div class="content-grid">
+                    <div class="card">
+                        <div class="card-title">1️⃣ Closing Stock <span class="badge">അവസാന സ്റ്റോക്ക്</span></div>
+                        <div class="card-content">
+                            <div class="entry-box">
+                                <span class="dr">Dr. Closing Stock A/c</span><br>
+                                <span class="cr">&nbsp;&nbsp;&nbsp;&nbsp;Cr. Trading A/c</span><br>
+                                <span class="comment">(Closing stock brought into books)</span>
+                            </div>
+                            <span class="malayalam">ട്രേഡിംഗ് അക്കൗണ്ടിന്റെ ക്രെഡിറ്റ് വശത്തും ബാലൻസ് ഷീറ്റിന്റെ ആസ്തി വശത്തും കാണിക്കണം</span>
+                        </div>
+                    </div>
+
+                    <div class="card" style="border-left-color:var(--success);">
+                        <div class="card-title">2️⃣ Outstanding Expenses <span class="badge" style="background:#c6f6d5;">ബാക്കി ചെലവുകൾ</span></div>
+                        <div class="card-content">
+                            <div class="entry-box">
+                                <span class="dr">Dr. Expense A/c</span><br>
+                                <span class="cr">&nbsp;&nbsp;&nbsp;&nbsp;Cr. Outstanding Expense A/c</span><br>
+                                <span class="comment">(Expense due but not paid)</span>
+                            </div>
+                            <span class="malayalam">P&L-ൽ കൂട്ടിച്ചേർക്കണം, ബാലൻസ് ഷീറ്റിൽ ലയബിലിറ്റിയായി കാണിക്കണം</span>
+                        </div>
+                    </div>
+
+                    <div class="card" style="border-left-color:var(--warning);">
+                        <div class="card-title">3️⃣ Prepaid Expenses <span class="badge" style="background:#fefcbf;">മുൻകൂർ ചെലവുകൾ</span></div>
+                        <div class="card-content">
+                            <div class="entry-box">
+                                <span class="dr">Dr. Prepaid Expense A/c</span><br>
+                                <span class="cr">&nbsp;&nbsp;&nbsp;&nbsp;Cr. Expense A/c</span><br>
+                                <span class="comment">(Expense paid in advance)</span>
+                            </div>
+                            <span class="malayalam">P&L-ൽ കുറയ്ക്കണം, ബാലൻസ് ഷീറ്റിൽ ആസ്തിയായി കാണിക്കണം</span>
+                        </div>
+                    </div>
+
+                    <div class="card" style="border-left-color:var(--danger);">
+                        <div class="card-title">4️⃣ Accrued Income <span class="badge" style="background:#fed7d7;">ലഭിക്കാനുള്ള വരുമാനം</span></div>
+                        <div class="card-content">
+                            <div class="entry-box">
+                                <span class="dr">Dr. Accrued Income A/c</span><br>
+                                <span class="cr">&nbsp;&nbsp;&nbsp;&nbsp;Cr. Income A/c</span><br>
+                                <span class="comment">(Income earned but not received)</span>
+                            </div>
+                            <span class="malayalam">P&L-ൽ കൂട്ടിച്ചേർക്കണം, ബാലൻസ് ഷീറ്റിൽ ആസ്തിയായി കാണിക്കണം</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 10: More Adjustments -->
+            <div class="slide" id="slide-10">
+                <div class="slide-title">
+                    <div class="icon">⚙️</div>
+                    More Adjustments
+                </div>
+                <div class="slide-subtitle malayalam">കൂടുതൽ അഡ്ജസ്റ്റ്മെന്റുകൾ</div>
+
+                <div class="content-grid">
+                    <div class="card">
+                        <div class="card-title">5️⃣ Depreciation <span class="badge">മൂല്യച്യുതി</span></div>
+                        <div class="card-content">
+                            <div class="entry-box">
+                                <span class="dr">Dr. Depreciation A/c</span><br>
+                                <span class="cr">&nbsp;&nbsp;&nbsp;&nbsp;Cr. Asset A/c</span><br>
+                                <span class="comment">(Depreciation charged on asset)</span>
+                            </div>
+                            <span class="malayalam">P&L-ൽ ചെലവായി കാണിക്കണം, ആസ്തിയുടെ മൂല്യം കുറയ്ക്കണം</span>
+                        </div>
+                    </div>
+
+                    <div class="card" style="border-left-color:var(--success);">
+                        <div class="card-title">6️⃣ Bad Debts <span class="badge" style="background:#c6f6d5;">തിരിച്ചുപറ്റാനാവാത്ത കടം</span></div>
+                        <div class="card-content">
+                            <div class="entry-box">
+                                <span class="dr">Dr. Bad Debts A/c</span><br>
+                                <span class="cr">&nbsp;&nbsp;&nbsp;&nbsp;Cr. Debtors A/c</span><br>
+                                <span class="comment">(Amount not recoverable from debtors)</span>
+                            </div>
+                            <span class="malayalam">P&L-ൽ ചെലവായി കാണിക്കണം, ഡെബ്റ്റേഴ്സിൽ നിന്ന് കുറയ്ക്കണം</span>
+                        </div>
+                    </div>
+
+                    <div class="card" style="border-left-color:var(--warning);">
+                        <div class="card-title">7️⃣ Provision for Bad Debts <span class="badge" style="background:#fefcbf;">ബാഡ് ഡെബ്റ്റ് നീക്കിവയ്പ്പ്</span></div>
+                        <div class="card-content">
+                            <div class="entry-box">
+                                <span class="dr">Dr. P&L A/c</span><br>
+                                <span class="cr">&nbsp;&nbsp;&nbsp;&nbsp;Cr. Provision for Bad Debts A/c</span><br>
+                                <span class="comment">(Creating provision @ certain % on debtors)</span>
+                            </div>
+                            <span class="malayalam">P&L-ൽ ചെലവായി കാണിക്കണം, ബാലൻസ് ഷീറ്റിൽ ഡെബ്റ്റേഴ്സിൽ നിന്ന് കുറയ്ക്കണം</span>
+                        </div>
+                    </div>
+
+                    <div class="card" style="border-left-color:var(--danger);">
+                        <div class="card-title">8️⃣ Interest on Capital <span class="badge" style="background:#fed7d7;">മൂലധനത്തിന് പലിശ</span></div>
+                        <div class="card-content">
+                            <div class="entry-box">
+                                <span class="dr">Dr. P&L A/c</span><br>
+                                <span class="cr">&nbsp;&nbsp;&nbsp;&nbsp;Cr. Capital A/c</span><br>
+                                <span class="comment">(Interest allowed on capital)</span>
+                            </div>
+                            <span class="malayalam">P&L-ൽ ചെലവായി കാണിക്കണം, കാപ്പിറ്റലിൽ കൂട്ടിച്ചേർക്കണം</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 11: Adjustments Summary Table -->
+            <div class="slide" id="slide-11">
+                <div class="slide-title">
+                    <div class="icon">📋</div>
+                    Adjustments Summary
+                </div>
+                <div class="slide-subtitle malayalam">അഡ്ജസ്റ്റ്മെന്റുകളുടെ സംക്ഷിപ്ത പട്ടിക</div>
+
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Adjustment</th>
+                            <th>Trading A/c</th>
+                            <th>P&L A/c</th>
+                            <th>Balance Sheet</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Closing Stock</strong></td>
+                            <td>Credit</td>
+                            <td>-</td>
+                            <td>Asset</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Outstanding Expenses</strong></td>
+                            <td>-</td>
+                            <td>Add to expense</td>
+                            <td>Liability</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Prepaid Expenses</strong></td>
+                            <td>-</td>
+                            <td>Less from expense</td>
+                            <td>Asset</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Accrued Income</strong></td>
+                            <td>-</td>
+                            <td>Add to income</td>
+                            <td>Asset</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Depreciation</strong></td>
+                            <td>-</td>
+                            <td>Expense</td>
+                            <td>Less from Asset</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Bad Debts</strong></td>
+                            <td>-</td>
+                            <td>Expense</td>
+                            <td>Less from Debtors</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Provision for Bad Debts</strong></td>
+                            <td>-</td>
+                            <td>Expense</td>
+                            <td>Less from Debtors</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Interest on Capital</strong></td>
+                            <td>-</td>
+                            <td>Expense</td>
+                            <td>Add to Capital</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Interest on Drawings</strong></td>
+                            <td>-</td>
+                            <td>Income</td>
+                            <td>Less from Capital</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Goods Distributed as Samples</strong></td>
+                            <td>Credit (Sales)</td>
+                            <td>Advertisement Expense</td>
+                            <td>-</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Slide 12: Steps to Prepare Final Accounts -->
+            <div class="slide" id="slide-12">
+                <div class="slide-title">
+                    <div class="icon">📝</div>
+                    Steps to Prepare Final Accounts
+                </div>
+                <div class="slide-subtitle malayalam">ഫൈനൽ അക്കൗണ്ടുകൾ തയ്യാറാക്കുന്ന ഘട്ടങ്ങൾ</div>
+
+                <div class="steps">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <div class="step-title">Prepare Trial Balance</div>
+                        <div style="font-size:0.8rem;color:var(--text-light);margin-top:5px;">
+                            <span class="malayalam">ട്രയൽ ബാലൻസ് തയ്യാറാക്കുക</span>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <div class="step-title">Pass Adjustments</div>
+                        <div style="font-size:0.8rem;color:var(--text-light);margin-top:5px;">
+                            <span class="malayalam">അഡ്ജസ്റ്റ്മെന്റുകൾ പാസ്സ് ചെയ്യുക</span>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <div class="step-title">Prepare Trading A/c</div>
+                        <div style="font-size:0.8rem;color:var(--text-light);margin-top:5px;">
+                            <span class="malayalam">ട്രേഡിംഗ് അക്കൗണ്ട് തയ്യാറാക്കുക</span>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">4</div>
+                        <div class="step-title">Prepare P&L A/c</div>
+                        <div style="font-size:0.8rem;color:var(--text-light);margin-top:5px;">
+                            <span class="malayalam">P&L അക്കൗണ്ട് തയ്യാറാക്കുക</span>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">5</div>
+                        <div class="step-title">Prepare Balance Sheet</div>
+                        <div style="font-size:0.8rem;color:var(--text-light);margin-top:5px;">
+                            <span class="malayalam">ബാലൻസ് ഷീറ്റ് തയ്യാറാക്കുക</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card" style="margin-top:25px;">
+                    <div class="card-title">💡 Important Tips <span class="badge" style="background:#fefcbf;">പ്രധാന സൂചനകൾ</span></div>
+                    <div class="card-content">
+                        <ul class="styled-list">
+                            <li>Always start with <strong>Trial Balance</strong> - it is the foundation</li>
+                            <li>Read adjustments carefully - each affects multiple accounts</li>
+                            <li>Ensure <strong>Trading A/c balances</strong> before moving to P&L</li>
+                            <li>Balance Sheet must always <strong>tally</strong> (Assets = Liabilities)</li>
+                            <li>Double-check all calculations to avoid errors</li>
+                        </ul>
+                        <br>
+                        <span class="malayalam">എല്ലാ കണക്കുകളും രണ്ടുതവണ പരിശോധിക്കുക. ബാലൻസ് ഷീറ്റ് എപ്പോഴും തുല്യമായിരിക്കണം.</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 13: Key Formulas -->
+            <div class="slide" id="slide-13">
+                <div class="slide-title">
+                    <div class="icon">🔢</div>
+                    Key Formulas
+                </div>
+                <div class="slide-subtitle malayalam">പ്രധാന സൂത്രവാക്യങ്ങൾ</div>
+
+                <div class="content-grid">
+                    <div class="card">
+                        <div class="card-title">📐 Gross Profit</div>
+                        <div class="card-content">
+                            <div class="formula-box" style="margin:0;">
+                                Gross Profit = Net Sales - COGS
+                            </div>
+                            <span class="malayalam">മൊത്ത ലാഭം = നെറ്റ് വിൽപ്പന - വിൽപ്പന ചെലവ്</span>
+                        </div>
+                    </div>
+
+                    <div class="card" style="border-left-color:var(--success);">
+                        <div class="card-title">📐 Net Profit</div>
+                        <div class="card-content">
+                            <div class="formula-box" style="margin:0;">
+                                Net Profit = Gross Profit + Income - Expenses
+                            </div>
+                            <span class="malayalam">നെറ്റ് ലാഭം = മൊത്ത ലാഭം + വരുമാനം - ചെലവുകൾ</span>
+                        </div>
+                    </div>
+
+                    <div class="card" style="border-left-color:var(--warning);">
+                        <div class="card-title">📐 Cost of Goods Sold</div>
+                        <div class="card-content">
+                            <div class="formula-box" style="margin:0;">
+                                COGS = Opening Stock + Purchases + Direct Expenses - Closing Stock
+                            </div>
+                            <span class="malayalam">വിൽപ്പന ചെലവ് = തുടക്ക സ്റ്റോക്ക് + വാങ്ങലുകൾ + നേരിട്ടുള്ള ചെലവുകൾ - അവസാന സ്റ്റോക്ക്</span>
+                        </div>
+                    </div>
+
+                    <div class="card" style="border-left-color:var(--danger);">
+                        <div class="card-title">📐 Net Sales</div>
+                        <div class="card-content">
+                            <div class="formula-box" style="margin:0;">
+                                Net Sales = Sales - Sales Returns
+                            </div>
+                            <span class="malayalam">നെറ്റ് വിൽപ്പന = വിൽപ്പന - വിൽപ്പന തിരിച്ചയക്കൽ</span>
+                        </div>
+                    </div>
+
+                    <div class="card" style="border-left-color:#9f7aea;">
+                        <div class="card-title">📐 Closing Capital</div>
+                        <div class="card-content">
+                            <div class="formula-box" style="margin:0;">
+                                Closing Capital = Opening Capital + Net Profit + Additional Capital - Drawings
+                            </div>
+                            <span class="malayalam">അവസാന മൂലധനം = തുടക്ക മൂലധനം + നെറ്റ് ലാഭം + കൂട്ടിച്ചേർത്ത മൂലധനം - പിൻവലിക്കൽ</span>
+                        </div>
+                    </div>
+
+                    <div class="card" style="border-left-color:#38b2ac;">
+                        <div class="card-title">📐 Depreciation (Straight Line)</div>
+                        <div class="card-content">
+                            <div class="formula-box" style="margin:0;">
+                                Depreciation = (Cost - Scrap Value) / Useful Life
+                            </div>
+                            <span class="malayalam">മൂല്യച്യുതി = (ചെലവ് - അവശിഷ്ട മൂല്യം) / ഉപയോഗ കാലയളവ്</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 14: Thank You -->
+            <div class="slide" id="slide-14">
+                <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;text-align:center;min-height:400px;">
+                    <div style="font-size:4rem;margin-bottom:15px;">🎓</div>
+                    <h1 style="font-size:2.5rem;color:var(--primary);margin-bottom:10px;">Thank You!</h1>
+                    <h2 style="font-size:1.3rem;color:var(--secondary);margin-bottom:20px;">Module I - Preparation of Financial Statements</h2>
+                    <p style="font-size:1.1rem;color:var(--text-light);max-width:500px;line-height:1.7;">
+                        <span class="malayalam">ഫിനാൻഷ്യൽ അക്കൗണ്ടിംഗ് I - മൊഡ്യൂൾ I പഠനം പൂർത്തിയായി. എല്ലാ വിഷയങ്ങളും നന്നായി പഠിക്കുക!</span>
+                    </p>
+                    <div style="margin-top:30px;display:flex;gap:10px;flex-wrap:wrap;justify-content:center;">
+                        <span class="tag tag-blue">Conceptual Framework ✅</span>
+                        <span class="tag tag-green">Accounting Concepts ✅</span>
+                        <span class="tag tag-yellow">Final Accounts ✅</span>
+                        <span class="tag tag-red">Adjustments ✅</span>
+                    </div>
+                    <p style="margin-top:30px;color:#a0aec0;font-size:0.85rem;">Scroll up to review any topic</p>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="nav-bar">
+            <button class="nav-btn" id="prevBtn" onclick="scrollToSlide(-1)">
+                ◀ Prev
+            </button>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill" style="width:7.14%"></div>
+            </div>
+            <button class="nav-btn" id="nextBtn" onclick="scrollToSlide(1)">
+                Next ▶
+            </button>
+        </div>
+    </div>
+
+    <div class="scroll-indicator" id="scrollIndicator"></div>
+
+    <script>
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+        let currentSlideIndex = 0;
+
+        document.getElementById('totalSlides').textContent = totalSlides;
+
+        // Create scroll dots
+        const indicator = document.getElementById('scrollIndicator');
+        for (let i = 0; i < totalSlides; i++) {
+            const dot = document.createElement('div');
+            dot.className = 'scroll-dot' + (i === 0 ? ' active' : '');
+            dot.onclick = () => scrollToSlideIndex(i);
+            indicator.appendChild(dot);
+        }
+
+        function scrollToSlideIndex(index) {
+            if (index >= 0 && index < totalSlides) {
+                slides[index].scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }
+
+        function scrollToSlide(direction) {
+            const newIndex = currentSlideIndex + direction;
+            if (newIndex >= 0 && newIndex < totalSlides) {
+                scrollToSlideIndex(newIndex);
+            }
+        }
+
+        function updateProgress() {
+            const scrollTop = window.scrollY;
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const progress = (scrollTop / docHeight) * 100;
+            document.getElementById('progressFill').style.width = progress + '%';
+
+            // Find which slide is most visible
+            let maxVisible = 0;
+            let visibleIndex = 0;
+            slides.forEach((slide, index) => {
+                const rect = slide.getBoundingClientRect();
+                const visibleHeight = Math.min(rect.bottom, window.innerHeight) - Math.max(rect.top, 0);
+                if (visibleHeight > maxVisible) {
+                    maxVisible = visibleHeight;
+                    visibleIndex = index;
+                }
+            });
+
+            currentSlideIndex = visibleIndex;
+            document.getElementById('currentSlide').textContent = currentSlideIndex + 1;
+
+            // Update buttons
+            document.getElementById('prevBtn').disabled = currentSlideIndex === 0;
+            document.getElementById('nextBtn').disabled = currentSlideIndex === totalSlides - 1;
+
+            // Update dots
+            document.querySelectorAll('.scroll-dot').forEach((dot, index) => {
+                dot.classList.toggle('active', index === currentSlideIndex);
+            });
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowDown' || e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ') {
+                e.preventDefault();
+                scrollToSlide(1);
+            } else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft' || e.key === 'PageUp') {
+                e.preventDefault();
+                scrollToSlide(-1);
+            } else if (e.key === 'Home') {
+                e.preventDefault();
+                scrollToSlideIndex(0);
+            } else if (e.key === 'End') {
+                e.preventDefault();
+                scrollToSlideIndex(totalSlides - 1);
+            }
+        });
+
+        // Scroll event listener
+        window.addEventListener('scroll', updateProgress, { passive: true });
+
+        // Initial update
+        updateProgress();
+    </script>
+</body>
+    </html>
