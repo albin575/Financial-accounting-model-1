@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Financial Accounting I - Module I</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Malayalam:wght@400;600;700&family=Inter:wght@400;500;600;700&display=swap');
+
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         :root {
@@ -20,20 +22,21 @@
             --warning: #dd6b20;
         }
 
-        body {
-            font-family: 'Segoe UI', 'Noto Sans Malayalam', 'Inter', sans-serif;
+        html, body {
+            font-family: 'Inter', 'Noto Sans Malayalam', sans-serif;
             background: var(--bg);
             color: var(--text);
+            height: 100%;
+            width: 100%;
             overflow: hidden;
-            height: 100vh;
-            width: 100vw;
         }
 
         .presentation {
             width: 100%;
-            height: 100%;
+            height: 100vh;
             display: flex;
             flex-direction: column;
+            overflow: hidden;
         }
 
         .header {
@@ -61,32 +64,37 @@
 
         .slide-container {
             flex: 1;
+            overflow-y: scroll;
+            scroll-snap-type: y mandatory;
+            scroll-behavior: smooth;
             position: relative;
-            overflow: hidden;
             background: var(--bg);
+        }
+
+        .slide-container::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .slide-container::-webkit-scrollbar-track {
+            background: var(--bg);
+        }
+
+        .slide-container::-webkit-scrollbar-thumb {
+            background: var(--secondary);
+            border-radius: 4px;
         }
 
         .slide {
-            position: absolute;
-            top: 0;
-            left: 0;
             width: 100%;
-            height: 100%;
+            min-height: 100%;
             padding: 30px 50px;
-            display: none;
+            display: flex;
             flex-direction: column;
             overflow-y: auto;
             background: var(--bg);
-        }
-
-        .slide.active {
-            display: flex;
-            animation: fadeIn 0.4s ease;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+            scroll-snap-align: start;
+            scroll-snap-stop: always;
+            position: relative;
         }
 
         .slide-title {
@@ -164,7 +172,7 @@
         .card-content strong { color: var(--text); }
 
         .malayalam {
-            font-family: 'Noto Sans Malayalam', 'Segoe UI', sans-serif;
+            font-family: 'Noto Sans Malayalam', sans-serif;
             color: var(--secondary);
             font-weight: 500;
         }
@@ -303,62 +311,6 @@
         .tag-red { background: #fed7d7; color: #742a2a; }
         .tag-yellow { background: #fefcbf; color: #744210; }
 
-        .nav-bar {
-            background: var(--card);
-            padding: 12px 30px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 -4px 20px rgba(0,0,0,0.08);
-            z-index: 100;
-            flex-shrink: 0;
-        }
-
-        .nav-btn {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
-            border: none;
-            padding: 10px 24px;
-            border-radius: 8px;
-            font-size: 0.95rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            min-width: 120px;
-            justify-content: center;
-        }
-
-        .nav-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(30, 58, 95, 0.3);
-        }
-
-        .nav-btn:disabled {
-            opacity: 0.4;
-            cursor: not-allowed;
-            transform: none;
-            box-shadow: none;
-        }
-
-        .progress-bar {
-            flex: 1;
-            height: 5px;
-            background: #e2e8f0;
-            border-radius: 3px;
-            margin: 0 25px;
-            overflow: hidden;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, var(--accent), #f6ad55);
-            border-radius: 3px;
-            transition: width 0.4s ease;
-        }
-
         .two-col {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -420,6 +372,30 @@
             font-size: 0.85rem;
         }
 
+        .scroll-hint {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(30, 58, 95, 0.8);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            animation: bounce 2s infinite;
+            pointer-events: none;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
+            40% { transform: translateX(-50%) translateY(-10px); }
+            60% { transform: translateX(-50%) translateY(-5px); }
+        }
+
         @media (max-width: 768px) {
             .slide { padding: 15px; }
             .slide-title { font-size: 1.4rem; }
@@ -427,8 +403,6 @@
             .content-grid { grid-template-columns: 1fr; }
             .header h1 { font-size: 1rem; }
             .header { padding: 10px 15px; }
-            .nav-bar { padding: 10px 15px; }
-            .nav-btn { padding: 8px 16px; font-size: 0.85rem; min-width: 90px; }
         }
     </style>
 </head>
@@ -447,9 +421,9 @@
         <div class="slide-container" id="slideContainer">
 
             <!-- Slide 1: Title -->
-            <div class="slide active">
+            <div class="slide" data-index="1">
                 <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;text-align:center;min-height:400px;">
-                    <div style="font-size:4rem;margin-bottom:15px;">&#128202;</div>
+                    <div style="font-size:4rem;margin-bottom:15px;">📊</div>
                     <h1 style="font-size:2.5rem;color:var(--primary);margin-bottom:10px;">Financial Accounting I</h1>
                     <h2 style="font-size:1.5rem;color:var(--secondary);margin-bottom:20px;">Module I: Preparation of Financial Statements</h2>
                     <p style="font-size:1.1rem;color:var(--text-light);max-width:500px;line-height:1.7;">
@@ -461,21 +435,21 @@
                         <span class="tag tag-yellow">Final Accounts</span>
                         <span class="tag tag-red">Adjustments</span>
                     </div>
-                    <p style="margin-top:30px;color:#a0aec0;font-size:0.85rem;">Use arrow keys or buttons to navigate</p>
+                    <p style="margin-top:30px;color:#a0aec0;font-size:0.85rem;">Scroll down or use arrow keys to navigate</p>
                 </div>
             </div>
 
             <!-- Slide 2: Conceptual Framework -->
-            <div class="slide">
+            <div class="slide" data-index="2">
                 <div class="slide-title">
-                    <div class="icon">&#127959;</div>
+                    <div class="icon">🏗️</div>
                     Conceptual Framework
                 </div>
                 <div class="slide-subtitle malayalam">ആശയപരമായ ചട്ടക്കൂട് - ഫിനാൻഷ്യൽ അക്കൗണ്ടിംഗിന്റെ അടിസ്ഥാന ഘടന</div>
 
                 <div class="content-grid">
                     <div class="card">
-                        <div class="card-title">&#127919; Objective <span class="badge">ലക്ഷ്യം</span></div>
+                        <div class="card-title">🎯 Objective <span class="badge">ലക്ഷ്യം</span></div>
                         <div class="card-content">
                             Financial statements must help users <strong>(investors, creditors, government)</strong> make informed decisions.<br><br>
                             <span class="malayalam">ഫിനാൻഷ്യൽ സ്റ്റേറ്റ്മെന്റുകൾ ഉപയോക്താക്കൾക്ക് തീരുമാനങ്ങൾ എടുക്കാൻ സഹായിക്കുക</span>
@@ -483,7 +457,7 @@
                     </div>
 
                     <div class="card" style="border-left-color:var(--success);">
-                        <div class="card-title">&#9989; Relevance <span class="badge" style="background:#c6f6d5;">പ്രസക്തം</span></div>
+                        <div class="card-title">✅ Relevance <span class="badge" style="background:#c6f6d5;">പ്രസക്തം</span></div>
                         <div class="card-content">
                             Information must affect the user's decision-making ability.<br><br>
                             <span class="malayalam">വിവരങ്ങൾ ഉപയോക്താവിന്റെ തീരുമാനത്തെ ബാധിക്കുന്നുണ്ടോ എന്ന് നോക്കണം</span>
@@ -491,7 +465,7 @@
                     </div>
 
                     <div class="card" style="border-left-color:var(--warning);">
-                        <div class="card-title">&#128737; Faithful Representation <span class="badge" style="background:#fefcbf;">വിശ്വസനീയം</span></div>
+                        <div class="card-title">🛡️ Faithful Representation <span class="badge" style="background:#fefcbf;">വിശ്വസനീയം</span></div>
                         <div class="card-content">
                             Information must be truthful, complete, and neutral.<br><br>
                             <span class="malayalam">സത്യസന്ധവും പൂർണ്ണവുമായ വിവരങ്ങൾ നൽകണം</span>
@@ -499,7 +473,7 @@
                     </div>
 
                     <div class="card" style="border-left-color:#9f7aea;">
-                        <div class="card-title">&#128203; Enhancing Characteristics</div>
+                        <div class="card-title">📋 Enhancing Characteristics</div>
                         <div class="card-content">
                             <span class="tag tag-blue">Comparability</span>
                             <span class="tag tag-green">Verifiability</span>
@@ -512,9 +486,9 @@
             </div>
 
             <!-- Slide 3: Accounting Concepts -->
-            <div class="slide">
+            <div class="slide" data-index="3">
                 <div class="slide-title">
-                    <div class="icon">&#128208;</div>
+                    <div class="icon">📐</div>
                     Accounting Concepts
                 </div>
                 <div class="slide-subtitle malayalam">അക്കൗണ്ടിംഗ് ആശയങ്ങൾ - ബിസിനസ്സ് രേഖപ്പെടുത്തുന്ന അടിസ്ഥാന തത്വങ്ങൾ</div>
@@ -577,5 +551,15 @@
                 </table>
             </div>
 
-            <!-- Slide 4: Accounting Principles -->
-            <div cl
+            <!-- Slide 4: Accounting Conventions -->
+            <div class="slide" data-index="4">
+                <div class="slide-title">
+                    <div class="icon">📜</div>
+                    Accounting Conventions
+                </div>
+                <div class="slide-subtitle malayalam">അക്കൗണ്ടിംഗ് സമ്പ്രദായങ്ങൾ - രേഖപ്പെടുത്തുമ്പോൾ പാലിക്കേണ്ട നിയമങ്ങൾ</div>
+
+                <div class="content-grid">
+                    <div class="card">
+                        <div class="card-title">📘 Consistency <span class="badge">തുടർച്ച</span></div>
+                        <div class="card-conten
