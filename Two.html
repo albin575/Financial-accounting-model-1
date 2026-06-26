@@ -1,0 +1,255 @@
+
+part2 = '''
+            <!-- Slide 1: Title -->
+            <div class="slide active">
+                <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;text-align:center;min-height:400px;">
+                    <div style="font-size:4rem;margin-bottom:15px;">📊</div>
+                    <h1 style="font-size:2.5rem;color:var(--primary);margin-bottom:10px;">Financial Accounting I</h1>
+                    <h2 style="font-size:1.5rem;color:var(--secondary);margin-bottom:20px;">Module I: Preparation of Financial Statements</h2>
+                    <p style="font-size:1.1rem;color:var(--text-light);max-width:500px;line-height:1.7;">
+                        <span class="malayalam">ഫിനാൻഷ്യൽ അക്കൗണ്ടിംഗിന്റെ അടിസ്ഥാന ഘടനയും ഫിനാൻഷ്യൽ സ്റ്റേറ്റ്മെന്റുകളുടെ തയ്യാറെടുപ്പും</span>
+                    </p>
+                    <div style="margin-top:30px;display:flex;gap:10px;flex-wrap:wrap;justify-content:center;">
+                        <span class="tag tag-blue">Conceptual Framework</span>
+                        <span class="tag tag-green">Accounting Principles</span>
+                        <span class="tag tag-yellow">Final Accounts</span>
+                        <span class="tag tag-red">Adjustments</span>
+                    </div>
+                    <p style="margin-top:30px;color:#a0aec0;font-size:0.85rem;">Use arrow keys or buttons to navigate</p>
+                </div>
+            </div>
+            
+            <!-- Slide 2: Conceptual Framework -->
+            <div class="slide">
+                <div class="slide-title">
+                    <div class="icon">🏗️</div>
+                    Conceptual Framework
+                </div>
+                <div class="slide-subtitle malayalam">ആശയപരമായ ചട്ടക്കൂട് - ഫിനാൻഷ്യൽ അക്കൗണ്ടിംഗിന്റെ അടിസ്ഥാന ഘടന</div>
+                
+                <div class="content-grid">
+                    <div class="card">
+                        <div class="card-title">🎯 Objective <span class="badge">ലക്ഷ്യം</span></div>
+                        <div class="card-content">
+                            Financial statements must help users <strong>(investors, creditors, government)</strong> make informed decisions.<br><br>
+                            <span class="malayalam">ഫിനാൻഷ്യൽ സ്റ്റേറ്റ്മെന്റുകൾ ഉപയോക്താക്കൾക്ക് തീരുമാനങ്ങൾ എടുക്കാൻ സഹായിക്കുക</span>
+                        </div>
+                    </div>
+                    
+                    <div class="card" style="border-left-color:var(--success);">
+                        <div class="card-title">✅ Relevance <span class="badge" style="background:#c6f6d5;">പ്രസക്തം</span></div>
+                        <div class="card-content">
+                            Information must affect the user's decision-making ability.<br><br>
+                            <span class="malayalam">വിവരങ്ങൾ ഉപയോക്താവിന്റെ തീരുമാനത്തെ ബാധിക്കുന്നുണ്ടോ എന്ന് നോക്കണം</span>
+                        </div>
+                    </div>
+                    
+                    <div class="card" style="border-left-color:var(--warning);">
+                        <div class="card-title">🛡️ Faithful Representation <span class="badge" style="background:#fefcbf;">വിശ്വസനീയം</span></div>
+                        <div class="card-content">
+                            Information must be truthful, complete, and neutral.<br><br>
+                            <span class="malayalam">സത്യസന്ധവും പൂർണ്ണവുമായ വിവരങ്ങൾ നൽകണം</span>
+                        </div>
+                    </div>
+                    
+                    <div class="card" style="border-left-color:#9f7aea;">
+                        <div class="card-title">📋 Enhancing Characteristics</div>
+                        <div class="card-content">
+                            <span class="tag tag-blue">Comparability</span>
+                            <span class="tag tag-green">Verifiability</span>
+                            <span class="tag tag-yellow">Timeliness</span>
+                            <span class="tag tag-red">Understandability</span><br><br>
+                            <span class="malayalam">താരതമ്യം, സത്യാപനം, സമയബന്ധിതം, മനസ്സിലാക്കാൻ കഴിയുന്നത്</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Slide 3: Accounting Concepts -->
+            <div class="slide">
+                <div class="slide-title">
+                    <div class="icon">📐</div>
+                    Accounting Concepts
+                </div>
+                <div class="slide-subtitle malayalam">അക്കൗണ്ടിംഗ് ആശയങ്ങൾ - ബിസിനസ്സ് രേഖപ്പെടുത്തുന്ന അടിസ്ഥാന തത്വങ്ങൾ</div>
+                
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Concept</th>
+                            <th class="malayalam">മലയാളം</th>
+                            <th>Meaning</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Business Entity</strong></td>
+                            <td class="malayalam">വ്യവസായ ഘടകം</td>
+                            <td>Business and owner are separate. Personal expenses should not be recorded in business.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Money Measurement</strong></td>
+                            <td class="malayalam">പണ മാപനം</td>
+                            <td>Only transactions measurable in money are recorded.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Going Concern</strong></td>
+                            <td class="malayalam">തുടർച്ചയായ പ്രവർത്തനം</td>
+                            <td>Business will continue operating indefinitely.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Accounting Period</strong></td>
+                            <td class="malayalam">അക്കൗണ്ടിംഗ് കാലഘട്ടം</td>
+                            <td>1 year (April 1 - March 31)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Cost Concept</strong></td>
+                            <td class="malayalam">ചെലവ് ആശയം</td>
+                            <td>Assets recorded at purchase cost, not market value.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Dual Aspect</strong></td>
+                            <td class="malayalam">ഇരട്ട വശം</td>
+                            <td>"Every debit has a credit" - Every transaction has two sides.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Realization</strong></td>
+                            <td class="malayalam">നേട്ടം സാധ്യമാകുമ്പോൾ</td>
+                            <td>Profit is recognized only after sale is made.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Matching</strong></td>
+                            <td class="malayalam">പൊരുത്തപ്പെടുത്തൽ</td>
+                            <td>Revenues and expenses of same period are recorded together.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Accrual</strong></td>
+                            <td class="malayalam">സമ്പാദ്യം</td>
+                            <td>Income and expenses recorded in the period they occur, not when cash moves.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- Slide 4: Accounting Conventions -->
+            <div class="slide">
+                <div class="slide-title">
+                    <div class="icon">📜</div>
+                    Accounting Conventions
+                </div>
+                <div class="slide-subtitle malayalam">അക്കൗണ്ടിംഗ് സമ്പ്രദായങ്ങൾ - പ്രായോഗികമായി പാലിക്കുന്ന നിയമങ്ങൾ</div>
+                
+                <div class="content-grid" style="grid-template-columns: 1fr 1fr;">
+                    <div class="card" style="border-left-color:var(--success);">
+                        <div class="card-title">🔄 Consistency <span class="badge" style="background:#c6f6d5;">തുടർച്ച</span></div>
+                        <div class="card-content">
+                            Same accounting methods must be followed year after year.<br><br>
+                            <span class="malayalam">വർഷം തോറും ഒരേ രീതിയിൽ അക്കൗണ്ടിംഗ് ചെയ്യണം</span>
+                        </div>
+                    </div>
+                    
+                    <div class="card" style="border-left-color:var(--danger);">
+                        <div class="card-title">⚠️ Conservatism/Prudence <span class="badge" style="background:#fed7d7;">സൂക്ഷ്മത</span></div>
+                        <div class="card-content">
+                            Anticipate no profits but provide for all possible losses.<br><br>
+                            <span class="malayalam">നേട്ടം സംശയാസ്പദമാണെങ്കിൽ കുറച്ചുകാണിക്കണം, നഷ്ടം ഉറപ്പാണെങ്കിൽ കാണിക്കണം</span>
+                        </div>
+                    </div>
+                    
+                    <div class="card" style="border-left-color:var(--warning);">
+                        <div class="card-title">📌 Materiality <span class="badge" style="background:#fefcbf;">പ്രാധാന്യം</span></div>
+                        <div class="card-content">
+                            Small/insignificant items need not be recorded with extreme precision.<br><br>
+                            <span class="malayalam">ചെറിയ കാര്യങ്ങൾ കൃത്യമായി രേഖപ്പെടുത്തേണ്ടതില്ല</span>
+                        </div>
+                    </div>
+                    
+                    <div class="card" style="border-left-color:var(--secondary);">
+                        <div class="card-title">📢 Full Disclosure <span class="badge" style="background:#bee3f8;">പൂർണ്ണ വെളിപ്പെടുത്തൽ</span></div>
+                        <div class="card-content">
+                            All relevant information must be disclosed in financial reports.<br><br>
+                            <span class="malayalam">എല്ലാ പ്രസക്ത വിവരങ്ങളും റിപ്പോർട്ടിൽ കാണിക്കണം</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Slide 5: Capital vs Revenue -->
+            <div class="slide">
+                <div class="slide-title">
+                    <div class="icon">⚖️</div>
+                    Capital vs Revenue
+                </div>
+                <div class="slide-subtitle malayalam">മൂലധനം vs വരുമാനം - ചെലവുകളും വരവുകളും വേർതിരിക്കൽ</div>
+                
+                <div class="two-col">
+                    <div>
+                        <div class="card" style="border-left-color:var(--success);margin-bottom:15px;">
+                            <div class="card-title">💰 Capital Expenditure <span class="badge" style="background:#c6f6d5;">മൂലധന ചെലവ്</span></div>
+                            <div class="card-content">
+                                <ul class="styled-list">
+                                    <li>Benefit greater than 1 year (ദീർഘകാലം)</li>
+                                    <li>Buying/improving assets</li>
+                                    <li>Shown in <strong>Balance Sheet</strong></li>
+                                </ul>
+                                <div style="margin-top:10px;">
+                                    <span class="tag tag-blue">Building</span>
+                                    <span class="tag tag-green">Machinery</span>
+                                    <span class="tag tag-yellow">Land</span>
+                                    <span class="tag tag-red">Furniture</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="card" style="border-left-color:var(--success);">
+                            <div class="card-title">📥 Capital Receipts <span class="badge" style="background:#c6f6d5;">മൂലധന വരവ്</span></div>
+                            <div class="card-content">
+                                <ul class="styled-list">
+                                    <li>From sale of capital assets</li>
+                                    <li>Reduces asset in Balance Sheet</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <div class="card" style="border-left-color:var(--warning);margin-bottom:15px;">
+                            <div class="card-title">💵 Revenue Expenditure <span class="badge" style="background:#fefcbf;">വരുമാന ചെലവ്</span></div>
+                            <div class="card-content">
+                                <ul class="styled-list">
+                                    <li>Benefit less than 1 year (ചെറിയ കാലയളവ്)</li>
+                                    <li>Day-to-day business expenses</li>
+                                    <li>Shown in <strong>P and L Account</strong></li>
+                                </ul>
+                                <div style="margin-top:10px;">
+                                    <span class="tag tag-blue">Salaries</span>
+                                    <span class="tag tag-green">Rent</span>
+                                    <span class="tag tag-yellow">Electricity</span>
+                                    <span class="tag tag-red">Repairs</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="card" style="border-left-color:var(--warning);">
+                            <div class="card-title">📤 Revenue Receipts <span class="badge" style="background:#fefcbf;">വരുമാന വരവ്</span></div>
+                            <div class="card-content">
+                                <ul class="styled-list">
+                                    <li>From normal business operations</li>
+                                    <li>Shown in <strong>P and L Account</strong></li>
+                                </ul>
+                                <div style="margin-top:10px;">
+                                    <span class="tag tag-blue">Sales</span>
+                                    <span class="tag tag-green">Commission</span>
+                                    <span class="tag tag-yellow">Rent Income</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+'''
+
+with open('/mnt/agents/output/financial_accounting_presentation.html', 'a', encoding='utf-8') as f:
+    f.write(part2)
+
+print("Part 2 written successfully")
